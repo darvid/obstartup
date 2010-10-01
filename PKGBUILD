@@ -2,7 +2,7 @@
 
 name=obstartup
 pkgname="${name}-hg"
-pkgver=1
+pkgver=0
 pkgrel=1
 source=()
 md5sums=()

@@ -100,7 +100,8 @@ class ObStartup(object):
 
     def __init__(self):
         self.builder = gtk.Builder()
-        self.builder.add_from_file("obstartup.glade")
+        self.builder.add_from_file(os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "obstartup.glade"))
         self.window = self.builder.get_object("main_window")
         self.builder.connect_signals(self)
 

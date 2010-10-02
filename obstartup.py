@@ -351,6 +351,7 @@ class ObStartup(object):
         iterator = self.startup_list_store.get_iter_from_string(path)
         enabled = not self.startup_list_store.get_value(iterator, 0)
         self.startup_list_store.set(iterator, 0, enabled)
+        self._set_unsaved()
 
     def on_command_cell_edited(self, widget, path, new_text, *user_data):
         iterator = self.startup_list_store.get_iter_from_string(path)

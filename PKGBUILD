@@ -2,7 +2,7 @@
 
 name=obstartup
 pkgname="${name}-hg"
-pkgver=0
+pkgver=3
 pkgrel=1
 source=()
 md5sums=()
@@ -28,5 +28,9 @@ build () {
     hg clone "${_hgroot}/${_hgrepo}"
   fi
   cd "${_hgrepo}"
-  install -D -m755 "${name}.py" "${pkgdir}/usr/bin/$name"
+
+  install -D "${name}.glade" "${pkgdir}/usr/share/$name/${name}.glade"
+  install -D -m755 "${name}.py" "${pkgdir}/usr/share/$name/$name"
+  mkdir -p "${pkgdir}/usr/bin"
+  ln -s "${pkgdir}/usr/share/$name/$name" "${pkgdir}/usr/bin/$name"
 }

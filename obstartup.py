@@ -103,6 +103,7 @@ class ObStartup(object):
         self.builder.add_from_file("obstartup.glade")
         self.window = self.builder.get_object("main_window")
         self.builder.connect_signals(self)
+
         self.currently_opened = self.original_list = None
 
         self.load_autostart_file()
@@ -157,8 +158,7 @@ class ObStartup(object):
         map(lambda i: self.startup_list_store.append(i), startup_list)
         self.original_list = startup_list
         self.currently_opened = filename
-        for menu in ("file_close", "file_save_as"):
-            self.builder.get_object(menu).set_sensitive(True)
+        self.builder.get_object("file_save_as").set_sensitive(True)
         self._set_unsaved()
         return startup_list
 
@@ -270,7 +270,7 @@ class ObStartup(object):
         self.original_list = startup_list
 
     def save_and_quit(self):
-        if (not self.unsaved or self.unsaved and self.question(
+        if (not self.calculate_unsaved() or self.unsaved and self.question(
             "Startup list has been modified but not saved. Really quit?")):
             gtk.main_quit()
         return True
@@ -297,8 +297,8 @@ class ObStartup(object):
                 True if row < self.row_count - 1 else False)
 
         if self.row_count <= 1:
-            for item in ("file_save", "file_save_as", "file_close",
-                "edit_up", "edit_down", "up_button", "down_button"):
+            for item in ("file_save", "file_save_as", "edit_up", "edit_down",
+                "up_button", "down_button"):
                 self.builder.get_object(item).set_sensitive(False)
 
         self.builder.get_object("file_save").set_sensitive(
@@ -319,14 +319,6 @@ class ObStartup(object):
 
     def on_file_save_as_activate(self, widget):
         self.save(show_dialog=True)
-
-    def on_file_close_activate(self, widget):
-        self.startup_list_store.clear()
-        self.original_list = StartupList()
-        for menu in ("file_close", "file_save", "file_save_as",
-            "edit_remove", "edit_up", "edit_down", "remove_button",
-            "up_button", "down_button"):
-            self.builder.get_object(menu).set_sensitive(False)
 
     def on_file_quit_activate(self, widget):
         self.save_and_quit()

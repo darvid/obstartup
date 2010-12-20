@@ -99,6 +99,8 @@ class ObStartup(object):
     autostart_file = os.path.join(openbox_config_directory, "autostart.sh")
 
     def __init__(self):
+        self.sorted = self.unsaved = False
+
         self.builder = gtk.Builder()
         self.builder.add_from_file(os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "obstartup.glade"))
@@ -110,7 +112,6 @@ class ObStartup(object):
         self.load_autostart_file()
         self.window.show()
 
-        self.sorted = self.unsaved = False
         self.builder.get_object("about_dialog").set_version(__version__)
 
     @property

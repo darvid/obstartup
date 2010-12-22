@@ -2,7 +2,7 @@
 
 name=obstartup
 pkgname="${name}-hg"
-pkgver=6
+pkgver=7
 pkgrel=1
 source=()
 md5sums=()
@@ -16,7 +16,7 @@ arch=('x86_64' 'i686')
 _hgroot=$url
 _hgrepo="$name"
 
-depends=('python' 'pygtk')
+depends=('python22' 'pygtk')
 makedepends=('mercurial' 'coreutils')
 
 build () {

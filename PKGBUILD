@@ -1,8 +1,8 @@
 # Contributor: David Gidwani <miniature@archlinux.us>
 
 name=obstartup
-pkgname="${name}-hg"
-pkgver=7
+pkgname="$name-hg"
+pkgver=8
 pkgrel=1
 source=()
 md5sums=()
@@ -16,7 +16,7 @@ arch=('x86_64' 'i686')
 _hgroot=$url
 _hgrepo="$name"
 
-depends=('python22' 'pygtk')
+depends=('python2' 'pygtk')
 makedepends=('mercurial' 'coreutils')
 
 build () {
@@ -31,9 +31,6 @@ build () {
 
   install -D "$name.glade" "$pkgdir/usr/share/$name/$name.glade"
   install -D -m755 "$name.py" "$pkgdir/usr/share/$name/$name.py"
-}
-
-package () {
-  mkdir -p "$pkgdir/usr/bin"
-  ln -s "$pkgdir/usr/share/$name/$name.py" "$pkgdir/usr/bin/$name"
+  mkdir -p $pkgdir/usr/bin
+  (cd $pkgdir/usr/bin; ln -s ../share/$name/$name.py $name)
 }

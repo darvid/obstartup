@@ -8,12 +8,20 @@
     :copyright: Copyright 2010 David Gidwani.
     :license: BSD style, see LICENSE
 """
-import pygtk
-pygtk.require("2.0")
-import gtk
-import gobject
-import os
 import sys
+try:
+    import pygtk
+    pygtk.require("2.0")
+except:
+    pass
+
+try:
+    import gtk
+    import gobject
+except:
+    sys.exit(1)
+
+import os
 
 
 __version__ = "0.0.1"
@@ -144,9 +152,7 @@ class ObStartup(object):
     def question(self, message):
         result = self.message(type_=gtk.MESSAGE_QUESTION,
             buttons=gtk.BUTTONS_YES_NO, message_format=message)
-        if result == gtk.RESPONSE_YES:
-            return True
-        return False
+        return result == gtk.RESPONSE_YES
 
     def load_autostart_file(self):
         if not os.path.exists(self.autostart_file):
@@ -187,7 +193,7 @@ class ObStartup(object):
         all_files_filter.set_name("All Files")
         all_files_filter.add_pattern("*")
 
-        map(lambda f: chooser.add_filter(f), (sh_filter, all_files_filter))
+        map(chooser.add_filter, (sh_filter, all_files_filter))
 
         if os.path.exists(self.autostart_file):
             chooser.set_filename(self.autostart_file)
